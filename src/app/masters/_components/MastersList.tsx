@@ -1,10 +1,35 @@
-import { masters } from "@/src/shared/masters";
+"use client";
+
 import { getCategoryIcon } from "../utils/getCategoryIcon";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock, Heart, Star } from "lucide-react";
+import { Master } from "@/src/type/Master";
+import { useEffect, useState } from "react";
 
 export default function MastersList() {
+  const [masters, setMasters] = useState<Master[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchMasters = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL!}/api/master`,
+        );
+        if (!res.ok) throw new Error("Ошибка ответа от сервера");
+        const data = await res.json();
+        setMasters(data);
+      } catch (err) {
+        console.error("Ошибка в компоненте MastersList:", err);
+        setError("Ошибка получения списка мастеров");
+      }
+    };
+
+    fetchMasters();
+  }, []);
+
+  if (error) return <div>{error}</div>;
   return (
     <section className="py-12">
       <div className="container mx-auto px-4">
@@ -30,7 +55,7 @@ export default function MastersList() {
                     <div className="text-center">
                       <div className="w-32 h-32 rounded-full bg-primary/20 flex items-center justify-center mx-auto">
                         <span className="text-5xl font-bold text-primary">
-                          {master.name.charAt(0)}
+                          {master.name}
                         </span>
                       </div>
                     </div>

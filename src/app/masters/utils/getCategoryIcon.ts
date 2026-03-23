@@ -1,21 +1,44 @@
 import {
-  Eye,
-  Flower2,
-  Gem,
   Scissors,
   Sparkles,
-  Users,
+  Flower2,
   Wand2,
+  Eye,
+  Gem,
+  Users,
 } from "lucide-react";
+type IconType =
+  | typeof Scissors
+  | typeof Sparkles
+  | typeof Flower2
+  | typeof Wand2
+  | typeof Eye
+  | typeof Gem
+  | typeof Users;
 
-export const getCategoryIcon = (position: string) => {
-  if (position.includes("Стилист") || position.includes("Барбер"))
-    return Scissors;
-  if (position.includes("Визажист")) return Sparkles;
-  if (position.includes("Косметолог")) return Flower2;
-  if (position.includes("маникюра") || position.includes("педикюра"))
-    return Wand2;
-  if (position.includes("Бровист")) return Eye;
-  if (position.includes("Спа")) return Gem;
-  return Users;
+const positionIconsMap: Record<string, IconType> = {
+  Стилист: Scissors,
+  Барбер: Scissors,
+  Визажист: Sparkles,
+  Лэшмейкер: Sparkles,
+  Косметолог: Flower2,
+  Дерматокосметолог: Flower2,
+  маникюра: Wand2,
+  педикюра: Wand2,
+  Бровист: Eye,
+  Спа: Gem,
+  Массажист: Gem,
+  "Специалист по телу": Gem,
+};
+
+export const getCategoryIcon = (position?: string): IconType => {
+  if (!position) return Users; // защита от undefined или пустой строки
+
+  for (const key in positionIconsMap) {
+    if (position.includes(key)) {
+      return positionIconsMap[key];
+    }
+  }
+
+  return Users; // по умолчанию
 };

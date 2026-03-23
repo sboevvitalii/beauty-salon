@@ -6,4 +6,5 @@ export interface Master {
   description: string;
   image: string;
   quote: string;
+  rating: number | string;
 }
