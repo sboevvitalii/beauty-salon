@@ -1,0 +1,70 @@
+laims-beauty/
+│
+├── public/
+│ ├── images/
+│ │ ├── hero/
+│ │ ├── services/
+│ │ ├── masters/
+│ │ └── gallery/
+│ └── icons/
+│
+├── src/
+│ ├── app/
+│ │ ├── layout.tsx
+│ │ ├── page.tsx # Главная
+│ │ │
+│ │ ├── services/
+│ │ │ ├── page.tsx
+│ │ │ └── [slug]/page.tsx
+│ │ │
+│ │ ├── masters/
+│ │ │ └── page.tsx
+│ │ │
+│ │ ├── gallery/
+│ │ │ └── page.tsx
+│ │ │
+│ │ ├── prices/
+│ │ │ └── page.tsx
+│ │ │
+│ │ ├── booking/
+│ │ │ └── page.tsx
+│ │ │
+│ │ ├── blog/
+│ │ │ ├── page.tsx
+│ │ │ └── [slug]/page.tsx
+│ │ │
+│ │ └── contacts/
+│ │ └── page.tsx
+│ │
+│ ├── components/
+│ │ ├── ui/
+│ │ │ ├── Button.tsx
+│ │ │ ├── Input.tsx
+│ │ │ └── Card.tsx
+│ │ │
+│ │ ├── layout/
+│ │ │ ├── Header.tsx
+│ │ │ ├── Footer.tsx
+│ │ │ └── Container.tsx
+│ │ │
+│ │ ├── sections/
+│ │ │ ├── Hero.tsx
+│ │ │ ├── Services.tsx
+│ │ │ ├── Masters.tsx
+│ │ │ ├── Reviews.tsx
+│ │ │ └── CTA.tsx
+│ │
+│ ├── data/
+│ │ ├── services.ts
+│ │ ├── masters.ts
+│ │ └── prices.ts
+│ │
+│ ├── styles/
+│ │ ├── globals.css
+│ │ └── variables.css
+│ │
+│ └── lib/
+│ └── utils.ts
+│
+├── package.json
+└── tsconfig.json
