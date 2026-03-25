@@ -1,4 +1,4 @@
-import { EntryFormData } from "@/src/type/EntryFormData";
+import { EntryFormData } from "@/src/type/EntryFormDataProps";
 import { ArrowRight } from "lucide-react";
 
 interface FourStepProps {

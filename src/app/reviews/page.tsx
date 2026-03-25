@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import ReviewsPageHeader from "./_components/ReviewsPageHeader";
 import Statistics from "./_components/Statistics";
-import Filters from "./_components/Filters";
-import ReviewList from "./_components/ReviewList";
+import FilterHeader from "./_components/FilterHeader";
+import FilteredList from "./_components/FelteredList";
 import Advantages from "./_components/Advantages";
 import ReviewForm from "./_components/ReviewForm";
 import AppointmentSection from "@/src/shared/AppointmentSection";
+import FilteredBlock from "./_components/FilteredBlock";
 
 export const metadata: Metadata = {
   title: "Отзывы | Laims Beauty Salon",
@@ -42,11 +43,7 @@ export default function ReviewsPage() {
       {/* Статистика */}
       <Statistics />
 
-      {/* Фильтры */}
-      <Filters />
-
-      {/* Список отзывов */}
-      <ReviewList />
+      <FilteredBlock />
 
       {/* Преимущества */}
       <Advantages />

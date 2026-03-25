@@ -1,9 +1,14 @@
-export const serviceFilters = [
-  { label: "Все услуги", path: "/services" },
-  { label: "Парикмахерские услуги", path: "/services/hair" },
-  { label: "Маникюр и педикюр", path: "/services/nails" },
-  { label: "Макияж", path: "/services/makeup" },
-  { label: "Косметология", path: "/services/cosmetology" },
-  { label: "Брови и ресницы", path: "/services/brows" },
-  { label: "Спа-процедуры", path: "/services/spa" },
+export type ServiceFilterProps = {
+  label: string;
+  value: string;
+};
+
+export const serviceFilters: ServiceFilterProps[] = [
+  { label: "Все услуги", value: "all" },
+  { label: "Парикмахерские услуги", value: "hair" },
+  { label: "Маникюр и педикюр", value: "nails" },
+  { label: "Макияж", value: "makeup" },
+  { label: "Косметология", value: "cosmetology" },
+  { label: "Брови и ресницы", value: "brows" },
+  { label: "Спа-процедуры", value: "spa" },
 ];

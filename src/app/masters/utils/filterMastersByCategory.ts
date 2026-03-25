@@ -1,12 +1,12 @@
-import { Master } from "@/src/type/Master";
+import { MasterProps } from "@/src/type/MasterProps";
 
 export const filterMastersByCategory = (
-  masters: Master[],
+  masters: MasterProps[],
   categoryId: string,
 ) => {
   if (categoryId === "all") return masters;
 
-  const filters: Record<string, (master: Master) => boolean> = {
+  const filters: Record<string, (master: MasterProps) => boolean> = {
     stylist: (m) =>
       m.position.includes("Стилист") || m.position.includes("Барбер"),
     makeup: (m) => m.position.includes("Визажист"),

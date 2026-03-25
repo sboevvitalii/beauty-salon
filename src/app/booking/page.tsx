@@ -2,12 +2,12 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
-import { EntryFormData } from "@/src/type/EntryFormData";
+import { EntryFormData } from "@/src/type/EntryFormDataProps";
 import { validateStep } from "./utils/validateStep";
 import ConfirmModal from "@/src/components/Modal/ConfirmModal";
 import BookingPageHeader from "./_components/BookingPageHeader";
 import FirstStep from "./_components/FirstStep";
-import { FormErrors } from "@/src/type/FormErrors";
+import { FormErrors } from "@/src/type/FormErrorsProps";
 import SecondStep from "./_components/SecondStep";
 import ThreeStep from "./_components/ThreeStep";
 import FourStep from "./_components/FourStep";

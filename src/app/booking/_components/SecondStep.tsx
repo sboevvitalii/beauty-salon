@@ -3,7 +3,7 @@ import { Styles } from "./styles";
 import { masters } from "@/src/shared/masters";
 import { Calendar } from "lucide-react";
 import { timeSlots } from "../utils/timeSlots";
-import { EntryFormData } from "@/src/type/EntryFormData";
+import { EntryFormData } from "@/src/type/EntryFormDataProps";
 
 interface SecondStepProps {
   step: number;

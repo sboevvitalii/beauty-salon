@@ -1,4 +1,4 @@
-import { EntryFormData } from "@/src/type/EntryFormData";
+import { EntryFormData } from "@/src/type/EntryFormDataProps";
 
 export const validateStep = (
   currentStep: number,

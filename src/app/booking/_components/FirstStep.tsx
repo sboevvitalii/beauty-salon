@@ -1,5 +1,5 @@
-import { EntryFormData } from "@/src/type/EntryFormData";
-import { FormErrors } from "@/src/type/FormErrors";
+import { EntryFormData } from "@/src/type/EntryFormDataProps";
+import { FormErrors } from "@/src/type/FormErrorsProps";
 import { Mail, MessageSquare, Phone, User } from "lucide-react";
 
 interface FirstStepProps {

@@ -1,26 +1,37 @@
-import Link from "next/link";
-import { serviceFilters } from "./serviceFilters";
+import { ServiceFilterProps } from "./serviceFilters";
 
-export default function Filters() {
+interface FilterHeaderProps {
+  handleFilter: (type: string) => void;
+  isActive: string;
+  serviceFilters: ServiceFilterProps[];
+}
+
+const FilterHeader = ({
+  handleFilter,
+  isActive,
+  serviceFilters,
+}: FilterHeaderProps) => {
   return (
     <section className="py-8">
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap gap-3 justify-center">
           {serviceFilters.map((item, index) => (
-            <Link
+            <button
               key={index}
-              href={item.path}
+              onClick={() => handleFilter(item.value)}
               className={`px-4 py-2 rounded-full text-sm transition-colors shadow-sm ${
-                index === 0
+                isActive === item.value
                   ? "bg-primary text-white"
                   : "bg-white text-text-main hover:bg-primary hover:text-white"
               }`}
             >
               {item.label}
-            </Link>
+            </button>
           ))}
         </div>
       </div>
     </section>
   );
-}
+};
+
+export default FilterHeader;

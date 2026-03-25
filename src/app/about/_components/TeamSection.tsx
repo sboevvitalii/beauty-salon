@@ -1,8 +1,24 @@
-import { masters } from "@/src/shared/masters";
+"use client";
+
+import { MasterProps } from "@/src/type/MasterProps";
+import { getMasters } from "@/src/utils/getMasrers";
+import { shuffleArray } from "@/src/utils/shuffleArray";
 import { Users } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function TeamSection() {
+  const [masters, setMasters] = useState<MasterProps[]>([]);
+
+  useEffect(() => {
+    const fetchMasters = async () => {
+      const data = await getMasters();
+      setMasters(data);
+    };
+    fetchMasters();
+  }, []);
+
+  const shuffledMasters = shuffleArray(masters).slice(0, 4);
   return (
     <section className="py-16 bg-bg-section">
       <div className="container mx-auto px-4">
@@ -14,7 +30,7 @@ export default function TeamSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {masters.map((member, index) => (
+          {shuffledMasters.map((member, index) => (
             <div
               key={index}
               className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all group"

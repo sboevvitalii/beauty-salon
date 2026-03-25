@@ -1,4 +1,4 @@
-export interface Master {
+export interface MasterProps {
   id: number | string;
   name: string;
   position: string;
@@ -6,5 +6,5 @@ export interface Master {
   description: string;
   image: string;
   quote: string;
-  rating: number | string;
+  rating: number;
 }

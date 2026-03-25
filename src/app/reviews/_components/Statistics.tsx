@@ -1,6 +1,7 @@
-import { stats } from "./stats";
+import { getStats } from "./stats";
 
-export default function Statistics() {
+const Statistics = async () => {
+  const stats = await getStats();
   return (
     <section className="py-12">
       <div className="container mx-auto px-4">
@@ -26,4 +27,5 @@ export default function Statistics() {
       </div>
     </section>
   );
-}
+};
+export default Statistics;

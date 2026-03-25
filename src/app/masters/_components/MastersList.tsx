@@ -4,11 +4,11 @@ import { getCategoryIcon } from "../utils/getCategoryIcon";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock, Heart, Star } from "lucide-react";
-import { Master } from "@/src/type/Master";
+import { MasterProps } from "@/src/type/MasterProps";
 import { useEffect, useState } from "react";
 
 export default function MastersList() {
-  const [masters, setMasters] = useState<Master[]>([]);
+  const [masters, setMasters] = useState<MasterProps[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

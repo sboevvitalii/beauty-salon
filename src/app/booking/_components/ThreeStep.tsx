@@ -1,6 +1,6 @@
 import { masters } from "@/src/shared/masters";
 import { services } from "@/src/shared/services";
-import { EntryFormData } from "@/src/type/EntryFormData";
+import { EntryFormData } from "@/src/type/EntryFormDataProps";
 import Link from "next/link";
 
 interface ThreeStepProps {
