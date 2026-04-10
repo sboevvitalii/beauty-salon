@@ -1,21 +1,48 @@
 import { EntryFormData } from "@/src/type/EntryFormDataProps";
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
 
-interface FourStepProps {
+interface BookingPageFooterProps {
   step: number;
   formData: EntryFormData;
   nextStep: () => void;
   isSubmitting: boolean;
+  onReset: () => void;
+  prevStep: () => void;
 }
 
-export default function FourStep({
+export default function BookingPageFooter({
   step,
   formData,
   nextStep,
   isSubmitting,
-}: FourStepProps) {
+  onReset,
+  prevStep,
+}: BookingPageFooterProps) {
   return (
-    <>
+    <div className="flex w-full justify-center gap-4 mt-8 pt-4 border-t border-green-muted/20">
+      {/* Кнопка отмены */}
+      {step > 1 ? (
+        <button
+          type="button"
+          onClick={prevStep}
+          aria-label="Назад к предыдущему шагу"
+          className="px-6 py-3 rounded-full border border-green-muted/20 text-text-main hover:border-primary hover:text-primary transition flex items-center gap-2"
+        >
+          <ArrowLeft size={18} aria-hidden="true" />
+          Назад
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={onReset}
+          className="px-6 py-3 rounded-full border border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 transition flex items-center gap-2"
+        >
+          <X size={18} aria-hidden="true" />
+          Отмена
+        </button>
+      )}
+
+      {/* Кнопка продолжения/подтверждения */}
       {step < 3 ? (
         <button
           type="button"
@@ -50,6 +77,6 @@ export default function FourStep({
           )}
         </button>
       )}
-    </>
+    </div>
   );
 }

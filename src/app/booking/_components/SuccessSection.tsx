@@ -30,12 +30,13 @@ export default function SuccessSection({
           >
             На главную
           </Link>
-          <button
+          <Link
+            href="/booking"
             onClick={handleReset}
             className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary px-6 py-3 rounded-full font-medium hover:bg-primary hover:text-white transition"
           >
             Новая запись
-          </button>
+          </Link>
         </div>
       </div>
     </div>

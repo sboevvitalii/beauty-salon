@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { ArrowLeft } from "lucide-react";
 import { EntryFormData } from "@/src/type/EntryFormDataProps";
 import { validateStep } from "./utils/validateStep";
 import ConfirmModal from "@/src/components/Modal/ConfirmModal";
@@ -10,7 +9,7 @@ import FirstStep from "./_components/FirstStep";
 import { FormErrors } from "@/src/type/FormErrorsProps";
 import SecondStep from "./_components/SecondStep";
 import ThreeStep from "./_components/ThreeStep";
-import FourStep from "./_components/FourStep";
+import BookingPageFooter from "./_components/BookingPageFooter";
 import SuccessSection from "./_components/SuccessSection";
 
 export default function BookingPage() {
@@ -58,12 +57,14 @@ export default function BookingPage() {
     setError(null);
 
     try {
-      // Здесь ваш реальный API-запрос
-      const response = await fetch("/api/booking", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/booking`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        },
+      );
 
       if (!response.ok) throw new Error("Ошибка отправки заявки");
 
@@ -92,6 +93,7 @@ export default function BookingPage() {
 
   const handleReset = () => {
     setIsResetModalOpen(true);
+    setIsSuccess(false);
   };
 
   const handleConfirmReset = () => {
@@ -159,23 +161,13 @@ export default function BookingPage() {
 
             {/* Кнопки навигации */}
             <div className="flex justify-between gap-4 mt-8 pt-4 border-t border-green-muted/20">
-              {step > 1 && (
-                <button
-                  type="button"
-                  onClick={prevStep}
-                  aria-label="Назад к предыдущему шагу"
-                  className="px-6 py-3 rounded-full border border-green-muted/20 text-text-main hover:border-primary hover:text-primary transition flex items-center gap-2"
-                >
-                  <ArrowLeft size={18} aria-hidden="true" />
-                  Назад
-                </button>
-              )}
-
-              <FourStep
+              <BookingPageFooter
                 step={step}
                 formData={formData}
+                prevStep={prevStep}
                 nextStep={nextStep}
                 isSubmitting={isSubmitting}
+                onReset={handleReset}
               />
             </div>
           </form>

@@ -5,8 +5,8 @@ export interface Booking {
   user_id: string;
   master_id: string;
   service_id: string;
-  start_time: Date;
-  end_time: Date;
+  startAt: Date;
+  endAt: Date;
   status: BookingStatus;
   comment?: string;
   created_at: Date;

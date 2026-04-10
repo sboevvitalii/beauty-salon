@@ -1,7 +1,9 @@
-import { masters } from "@/src/shared/masters";
-import { services } from "@/src/shared/services";
+"use client";
+
+import { getMasterNameById } from "@/src/lib/masters/client";
 import { EntryFormData } from "@/src/type/EntryFormDataProps";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface ThreeStepProps {
   step: number;
@@ -9,6 +11,28 @@ interface ThreeStepProps {
 }
 
 export default function ThreeStep({ step, formData }: ThreeStepProps) {
+  const [masterName, setMasterName] = useState("");
+
+  useEffect(() => {
+    const fetchMasterName = async () => {
+      if (formData.masterId) {
+        console.log(
+          "masterId:",
+          formData.masterId,
+          "тип:",
+          typeof formData.masterId,
+        );
+
+        const name = await getMasterNameById(String(formData.masterId));
+        console.log("полученное имя:", name);
+
+        setMasterName(name);
+      }
+    };
+
+    fetchMasterName();
+  }, [formData.masterId]);
+
   return (
     <>
       {step === 3 && (
@@ -34,17 +58,12 @@ export default function ThreeStep({ step, formData }: ThreeStepProps) {
             )}
             <div className="flex justify-between py-2 border-b border-green-muted/20">
               <span className="text-text-main/60">Услуга:</span>
-              <span className="font-medium">
-                {services.find((s) => s.id === formData.service)?.name ||
-                  formData.service}
-              </span>
+              <span className="font-medium">{formData.service}</span>
             </div>
             {formData.masterId && (
               <div className="flex justify-between py-2 border-b border-green-muted/20">
                 <span className="text-text-main/60">Мастер:</span>
-                <span className="font-medium">
-                  {masters.find((m) => m.id === formData.masterId)?.name}
-                </span>
+                <span className="font-medium">{masterName || "Не выбран"}</span>
               </div>
             )}
             <div className="flex justify-between py-2 border-b border-green-muted/20">

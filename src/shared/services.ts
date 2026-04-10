@@ -15,7 +15,7 @@ export const services = [
     name: "Парикмахерские услуги",
     description: "Стрижки, укладки, окрашивание и уход за волосами",
     icon: Scissors,
-    price: "от 2000 ₽",
+
     color: "from-[#689d0c] to-[#8bc34a]",
   },
   {
@@ -24,7 +24,7 @@ export const services = [
     name: "Маникюр и педикюр",
     description: "Классический, аппаратный, комбинированный маникюр и педикюр",
     icon: Wand2,
-    price: "от 1500 ₽",
+
     color: "from-[#bdd345] to-[#d4e38b]",
   },
   {
@@ -41,7 +41,7 @@ export const services = [
     name: "Косметология",
     description: "Уход за кожей лица, чистки, пилинги и массажи",
     icon: Flower2,
-    price: "от 3000 ₽",
+
     color: "from-[#8ca474] to-[#bfd4b2]",
   },
   {
@@ -50,7 +50,7 @@ export const services = [
     name: "Брови и ресницы",
     description: "Коррекция, окрашивание бровей и наращивание ресниц",
     icon: Eye,
-    price: "от 800 ₽",
+
     color: "from-[#376405] to-[#689d0c]",
   },
   {
