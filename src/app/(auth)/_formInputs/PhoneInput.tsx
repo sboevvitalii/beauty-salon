@@ -19,7 +19,8 @@ const PhoneInput = ({ value, onChangeAction }: PhoneInputProps) => {
         replacement={{ _: /\d/ }}
         id="phoneNumber"
         type="text"
-        value={value}
+        // value={value}
+        defaultValue={value || "+7"}
         placeholder="+7 (___) ___-__-__"
         onChange={onChangeAction}
         className="w-65 h-10 py-2 px-4 text-main-text text-base border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none caret-primary"

@@ -6,6 +6,7 @@ import { useState } from "react";
 import PhoneInput from "../../_formInputs/PhoneInput";
 import PersonInput from "../../_formInputs/PersonInput";
 import PasswordInput from "../../_formInputs/PasswordInput";
+import DateInput from "../../_formInputs/DateInput";
 
 const initialFormData = {
   phone: "",
@@ -32,15 +33,19 @@ export default function RegisterPage() {
     setFormData(initialFormData);
     router.back();
   };
+  // console.log(formData);
 
-  const handleSubmit = () => {};
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
+    console.log("Event target:", e.target.id, e.target.value);
     const { id, type } = e.target;
+    const value = type === "checkbox" ? e.target.checked : e.target.value;
+
     setFormData((prev) => ({ ...prev, [id]: value }));
-    const value = e.target.value;
   };
+
+  const handleSubmit = () => {};
 
   return (
     <div className="fixed inset-0 z-100 flex items-center justify-center bg-primary-dark min-h-screen text-primary-dark">
@@ -104,7 +109,15 @@ export default function RegisterPage() {
                 compareWith={formData.password}
               />
             </div>
-            <div className="flex flex-col gap-y-4 items-start">2 колонка</div>
+            <div className="flex flex-col gap-y-4 items-start">
+              <DateInput
+                id="birthdayDate"
+                value={formData.birthdayDate}
+                onChangeAction={(value) =>
+                  setFormData((prev) => ({ ...prev, birthdayDate: value }))
+                }
+              />
+            </div>
           </div>
         </form>
       </div>
