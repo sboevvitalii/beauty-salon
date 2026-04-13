@@ -74,7 +74,7 @@ export default function DateInput({
   };
 
   return (
-    <div>
+    <div className="relative">
       <label htmlFor={id} className="text-base text-[#8f8f8f] block">
         Дата рождения
       </label>

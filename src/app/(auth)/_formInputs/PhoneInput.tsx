@@ -18,9 +18,13 @@ const PhoneInput = ({ value, onChangeAction }: PhoneInputProps) => {
     setInternalValue(formatted);
 
     const syntheticEvent = {
-      ...e,
-      target: { ...e.target, value: formatted },
+      target: {
+        id: "phoneNumber",
+        value: formatted,
+        type: "text",
+      },
     } as ChangeEvent<HTMLInputElement>;
+
     onChangeAction(syntheticEvent);
   };
 
@@ -33,7 +37,6 @@ const PhoneInput = ({ value, onChangeAction }: PhoneInputProps) => {
         id="phoneNumber"
         type="text"
         value={internalValue}
-        placeholder=""
         onChange={handleChange}
         className="w-65 h-10 py-2 px-4 text-main-text text-base border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:bg-white focus:outline-none caret-primary"
         onFocus={(e) => {

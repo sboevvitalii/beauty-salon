@@ -7,9 +7,12 @@ import PhoneInput from "../../_formInputs/PhoneInput";
 import PersonInput from "../../_formInputs/PersonInput";
 import PasswordInput from "../../_formInputs/PasswordInput";
 import DateInput from "../../_formInputs/DateInput";
+import EmailInput from "../../_formInputs/EmailInput";
+import RegFormFooter from "./RegFormFooter";
+import { validateRegisterForm } from "@/src/utils/validation/validateForm";
 
 const initialFormData = {
-  phone: "",
+  phoneNumber: "",
   surname: "",
   firstName: "",
   password: "",
@@ -26,6 +29,7 @@ export default function RegisterPage() {
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState(initialFormData);
   const [showPassword, setShowPassword] = useState(false);
+  const [invalidFormMessage, setInvalidFormMessage] = useState("");
 
   const router = useRouter();
 
@@ -33,19 +37,37 @@ export default function RegisterPage() {
     setFormData(initialFormData);
     router.back();
   };
-  // console.log(formData);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    console.log("Event target:", e.target.id, e.target.value);
     const { id, type } = e.target;
     const value = type === "checkbox" ? e.target.checked : e.target.value;
+
+    if (invalidFormMessage) {
+      setInvalidFormMessage("");
+    }
 
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    setInvalidFormMessage("");
+
+    const validation = validateRegisterForm(formData);
+
+    if (!validation.isValid) {
+      setInvalidFormMessage(validation.errorMessage || "Некорректные данные");
+      setIsLoading(false);
+      return;
+    }
+  };
+
+  const isFormValid = () => validateRegisterForm(formData).isValid;
+  console.log(formData.phoneNumber);
 
   return (
     <div className="fixed inset-0 z-100 flex items-center justify-center bg-primary-dark min-h-screen text-primary-dark">
@@ -68,10 +90,10 @@ export default function RegisterPage() {
           autoCapitalize="off"
           className="w-full w-max-[552px] mx-auto max-h-screen flex flex-col justify-center overflow-y-auto "
         >
-          <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4">
+          <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4 mb-12">
             <div className="flex flex-col gap-y-4 items-start">
               <PhoneInput
-                value={formData.phone}
+                value={formData.phoneNumber}
                 onChangeAction={handleChange}
               />
               <PersonInput
@@ -85,6 +107,15 @@ export default function RegisterPage() {
                 label="Имя"
                 value={formData.firstName}
                 onChange={handleChange}
+              />
+            </div>
+            <div className="flex flex-col gap-y-4 items-start">
+              <DateInput
+                id="birthdayDate"
+                value={formData.birthdayDate}
+                onChangeAction={(value) =>
+                  setFormData((prev) => ({ ...prev, birthdayDate: value }))
+                }
               />
               <PasswordInput
                 id="password"
@@ -109,16 +140,24 @@ export default function RegisterPage() {
                 compareWith={formData.password}
               />
             </div>
+          </div>
+          <h2 className="text-lg font-bold text-center mb-6">
+            Необязательные поля
+          </h2>
+          <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4 mb-12">
             <div className="flex flex-col gap-y-4 items-start">
-              <DateInput
-                id="birthdayDate"
-                value={formData.birthdayDate}
-                onChangeAction={(value) =>
-                  setFormData((prev) => ({ ...prev, birthdayDate: value }))
-                }
+              <EmailInput
+                value={formData.email}
+                onChangeAction={handleChange}
               />
             </div>
           </div>
+          {invalidFormMessage && (
+            <div className="text-red-500 text-center mb-4">
+              {invalidFormMessage}
+            </div>
+          )}
+          <RegFormFooter isFormValid={isFormValid()} isLoading={isLoading} />
         </form>
       </div>
     </div>
