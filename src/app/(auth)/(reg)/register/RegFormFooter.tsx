@@ -13,7 +13,7 @@ const RegFormFooter = ({
     <>
       <div className="relative group w-fit mx-auto">
         <button
-          disabled={isLoading}
+          // disabled={isLoading}
           type="submit"
           className={`w-65 h-17 my-10 text-2xl rounded cursor-pointer duration-300 flex items-center justify-center ${
             isFormValid

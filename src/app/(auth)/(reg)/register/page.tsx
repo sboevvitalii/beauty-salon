@@ -10,31 +10,27 @@ import DateInput from "../../_formInputs/DateInput";
 import EmailInput from "../../_formInputs/EmailInput";
 import RegFormFooter from "./RegFormFooter";
 import { validateRegisterForm } from "@/src/utils/validation/validateForm";
-
-const initialFormData = {
-  phoneNumber: "",
-  surname: "",
-  firstName: "",
-  password: "",
-  confirmPassword: "",
-  birthdayDate: "",
-  region: "",
-  location: "",
-  gender: "",
-  email: "",
-};
+import Loader from "@/src/shared/loader/Loader";
+import SuccessModal from "./SuccessModal";
+import { initialRegFormData } from "@/src/constans/regFormData";
+import { regFormDataProps } from "@/src/type/regFormData";
 
 export default function RegisterPage() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [formData, setFormData] = useState(initialFormData);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<{
+    error: Error;
+    userMassege: string;
+  } | null>(null);
+  const [registerForm, setRegisterForm] =
+    useState<regFormDataProps>(initialRegFormData);
   const [showPassword, setShowPassword] = useState(false);
   const [invalidFormMessage, setInvalidFormMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const router = useRouter();
 
   const handleClose = () => {
-    setFormData(initialFormData);
+    setRegisterForm(initialRegFormData);
     router.back();
   };
 
@@ -48,7 +44,7 @@ export default function RegisterPage() {
       setInvalidFormMessage("");
     }
 
-    setFormData((prev) => ({ ...prev, [id]: value }));
+    setRegisterForm((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -57,17 +53,65 @@ export default function RegisterPage() {
     setError(null);
     setInvalidFormMessage("");
 
-    const validation = validateRegisterForm(formData);
+    const validation = validateRegisterForm(registerForm);
 
     if (!validation.isValid) {
       setInvalidFormMessage(validation.errorMessage || "Некорректные данные");
       setIsLoading(false);
       return;
     }
+
+    try {
+      const [day, month, year] = registerForm.birthdayDate.split(".");
+      const formattedBirthdayDate = `${year}-${month}-${day}`;
+
+      const userData = {
+        phoneNumber: registerForm.phoneNumber.replace(/\D/g, ""),
+        surname: registerForm.surname,
+        firstName: registerForm.firstName,
+        password: registerForm.password,
+        birthdayDate: formattedBirthdayDate,
+        email: registerForm.email || null,
+      };
+
+      console.log("Sending user data:", userData);
+
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        setError(responseData.error || "Ошибка регистрации");
+      } else {
+        setIsSuccess(true);
+        router.push("/login");
+      }
+    } catch (err) {
+      console.error("Registration error:", err);
+      setError({
+        error: err instanceof Error ? err : new Error("Unknown error"),
+        userMassege: "Ошибка регистрации. Пожалуйста, попробуйте позже.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const isFormValid = () => validateRegisterForm(formData).isValid;
-  console.log(formData.phoneNumber);
+  const isFormValid = () => validateRegisterForm(registerForm).isValid;
+
+  if (isLoading) {
+    <Loader />;
+  }
+  if (isSuccess) {
+    <SuccessModal />;
+  }
+  if (error) {
+    <div className="text-red-500 text-center mb-4">{error.userMassege}</div>;
+  }
 
   return (
     <div className="fixed inset-0 z-100 flex items-center justify-center bg-primary-dark min-h-screen text-primary-dark">
@@ -93,34 +137,34 @@ export default function RegisterPage() {
           <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4 mb-12">
             <div className="flex flex-col gap-y-4 items-start">
               <PhoneInput
-                value={formData.phoneNumber}
+                value={registerForm.phoneNumber}
                 onChangeAction={handleChange}
               />
               <PersonInput
                 id="surname"
                 label="Фамилия"
-                value={formData.surname}
+                value={registerForm.surname}
                 onChange={handleChange}
               />
               <PersonInput
                 id="firstName"
                 label="Имя"
-                value={formData.firstName}
+                value={registerForm.firstName}
                 onChange={handleChange}
               />
             </div>
             <div className="flex flex-col gap-y-4 items-start">
               <DateInput
                 id="birthdayDate"
-                value={formData.birthdayDate}
+                value={registerForm.birthdayDate}
                 onChangeAction={(value) =>
-                  setFormData((prev) => ({ ...prev, birthdayDate: value }))
+                  setRegisterForm((prev) => ({ ...prev, birthdayDate: value }))
                 }
               />
               <PasswordInput
                 id="password"
                 label="Пароль"
-                value={formData.password}
+                value={registerForm.password}
                 onChangeAction={handleChange}
                 showPassword={showPassword}
                 togglePasswordVisibilityAction={() =>
@@ -131,13 +175,13 @@ export default function RegisterPage() {
               <PasswordInput
                 id="confirmPassword"
                 label="Подтвердите пароль"
-                value={formData.confirmPassword}
+                value={registerForm.confirmPassword}
                 onChangeAction={handleChange}
                 showPassword={showPassword}
                 togglePasswordVisibilityAction={() =>
                   setShowPassword(!showPassword)
                 }
-                compareWith={formData.password}
+                compareWith={registerForm.password}
               />
             </div>
           </div>
@@ -147,7 +191,7 @@ export default function RegisterPage() {
           <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4 mb-12">
             <div className="flex flex-col gap-y-4 items-start">
               <EmailInput
-                value={formData.email}
+                value={registerForm.email}
                 onChangeAction={handleChange}
               />
             </div>

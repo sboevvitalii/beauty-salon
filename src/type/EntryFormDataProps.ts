@@ -1,6 +1,6 @@
 export interface EntryFormData {
-  name: string;
-  phone: string;
+  surname: string;
+  phoneNumber: string;
   email: string;
   service: string;
   masterId: string | number;

@@ -3,7 +3,7 @@ import { validateBirthDate } from "./validateBirthDate";
 export function validateRegisterForm(formData: {
   phoneNumber: string;
   surname: string;
-  name: string;
+  firstName: string;
   password: string;
   confirmPassword: string;
   birthdayDate: string;
@@ -32,7 +32,10 @@ export function validateRegisterForm(formData: {
   }
 
   // Проверка имени
-  if (!formData.name || !/^[а-яА-ЯёЁa-zA-Z-]{2,}$/.test(formData.name.trim())) {
+  if (
+    !formData.firstName ||
+    !/^[а-яА-ЯёЁa-zA-Z-]{2,}$/.test(formData.firstName.trim())
+  ) {
     return {
       isValid: false,
       errorMessage: "Имя должно содержать минимум 2 буквы",

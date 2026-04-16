@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useRef } from "react";
 import ToolTip from "./ToolTip";
 import { validateBirthDate } from "@/src/utils/validation/validateBirthDate";
 import { Calendar } from "lucide-react";
@@ -18,6 +18,7 @@ export default function DateInput({
 }: DateInputProps) {
   const [showTooltip, setShowTooltip] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const tempInputRef = useRef<HTMLInputElement | null>(null);
 
   const formatDate = (input: string): string => {
     const cleaned = input.replace(/\D/g, "");
@@ -47,24 +48,46 @@ export default function DateInput({
     handleDateChange(formatted);
   };
 
+  const cleanupTempInput = () => {
+    if (tempInputRef.current && document.body.contains(tempInputRef.current)) {
+      document.body.removeChild(tempInputRef.current);
+    }
+    tempInputRef.current = null;
+  };
+
   const handleCalendarClick = () => {
+    // Очищаем предыдущий временный инпут, если он есть
+    cleanupTempInput();
+
     const tempInput = document.createElement("input");
     tempInput.type = "date";
     tempInput.max = new Date().toISOString().split("T")[0];
+    tempInput.style.position = "absolute";
+    tempInput.style.opacity = "0";
+    tempInput.style.pointerEvents = "none";
 
-    tempInput.onchange = (e) => {
+    // Добавляем в body перед использованием
+    document.body.appendChild(tempInput);
+    tempInputRef.current = tempInput;
+
+    const handleChange = (e: Event) => {
       const target = e.target as HTMLInputElement;
 
       if (target.value) {
         const [year, month, day] = target.value.split("-");
-
         const formatted = `${day}.${month}.${year}`;
-
         handleDateChange(formatted);
       }
 
-      document.body.removeChild(tempInput);
+      cleanupTempInput();
     };
+
+    const handleCancel = () => {
+      cleanupTempInput();
+    };
+
+    tempInput.addEventListener("change", handleChange);
+    tempInput.addEventListener("cancel", handleCancel);
 
     if (tempInput.showPicker) {
       tempInput.showPicker();
@@ -92,7 +115,7 @@ export default function DateInput({
         />
         <button
           type="button"
-          className="absolute right-2 top-1/2 transform -translate-y-1/2"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
           onClick={handleCalendarClick}
         >
           <Calendar />

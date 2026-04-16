@@ -69,3 +69,12 @@ html {
 .zoom-in {
   animation-name: zoom-in;
 }
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+/* Success Modal */
+.animate-progress {
+  animation: progress 2s ease-in-out infinite;
+}
+/*success modal end*/
